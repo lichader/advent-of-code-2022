@@ -9,15 +9,11 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("No file is given in the command line")
-		return
-	}
-
-	filePath := os.Args[1]
-	readFile, err := os.Open(filePath)
+	const sampleFile = "./day1_input.txt"
+	readFile, err := os.Open(sampleFile)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
 	var allCalories []int
