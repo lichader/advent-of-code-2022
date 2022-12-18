@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 )
 
@@ -31,7 +32,6 @@ func main() {
 		rawInput := fileScanner.Text()
 
 		if len(rawInput) == 0 {
-			fmt.Println("Encountered space. Skip")
 			index++
 			allCalories = append(allCalories, 0)
 			continue
@@ -48,14 +48,19 @@ func main() {
 
 	readFile.Close()
 
+	sort.Ints(allCalories)
 	fmt.Println(allCalories)
 
-	var max int
-	for i, e := range allCalories {
-		if i == 0 || e > max {
-			max = e
-		}
+	fmt.Println(fmt.Sprintf("The maximum calrories are: %d", allCalories[len(allCalories)-1]))
+
+	var topThree []int = allCalories[(len(allCalories) - 3):]
+
+	fmt.Println("Top 3 are: ", topThree)
+
+	sumOfTop3 := 0
+	for _, v := range topThree {
+		sumOfTop3 += v
 	}
 
-	fmt.Println(max)
+	fmt.Println("The total calories of top 3 are: ", sumOfTop3)
 }
