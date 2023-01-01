@@ -21,16 +21,24 @@ func main() {
 	fileScanner := bufio.NewScanner(fileStream)
 	fileScanner.Split(bufio.ScanLines)
 
+	var lines []string
 	for fileScanner.Scan() {
 		line := fileScanner.Text()
-		fmt.Println("line: ", line)
 
-		lettersCount := countCommonChars(line)
+		lines = append(lines, line)
 
-		for _, char := range lettersCount {
-			priority := priorities[char]
-			fmt.Println("Char priority: ", char, priority)
-			sum = sum + priority
+		if len(lines) == 3 {
+			fmt.Println("lines: ", lines)
+
+			lettersCount := countCommonChars(lines)
+
+			for _, char := range lettersCount {
+				priority := priorities[char]
+				fmt.Println("Char priority: ", char, priority)
+				sum = sum + priority
+			}
+
+			lines = make([]string, 0)
 		}
 	}
 
@@ -54,26 +62,44 @@ func initPrioritiesMap() map[string]int {
 	return prioritiesDic
 }
 
-func countCommonChars(line string) []string {
+func countCommonChars(lines []string) []string {
 	dict := make(map[string]int)
 
 	var ret []string
 
-	var halfSize int = len(line) / 2
-	for i := 0; i < len(line); i++ {
-		if i < halfSize {
-			// initialize
-			leftChar := string(line[i])
-			dict[leftChar] = 0
+	for index, line := range lines {
+		if index == 0 {
+			// initialize the dictionary
+			for i := 0; i < len(line); i++ {
+				char := string(line[i])
+				dict[char] = 1
+			}
+		} else if index == 1 {
+			// check 2nd line
+			for i := 0; i < len(line); i++ {
+				char := string(line[i])
+
+				value, exists := dict[char]
+
+				if value == 1 && exists {
+					dict[char] = 2
+				}
+
+			}
 		} else {
-			rightChar := string(line[i])
+			// check 3rd line
+			for i := 0; i < len(line); i++ {
+				char := string(line[i])
 
-			value, inLeft := dict[rightChar]
+				value, exists := dict[char]
 
-			if value == 0 && inLeft {
-				dict[rightChar] = 1
-				fmt.Println("Found common character: ", rightChar)
-				ret = append(ret, rightChar)
+				if value == 2 && exists {
+					dict[char] = 3
+					fmt.Println("Found common character", char)
+
+					ret = append(ret, char)
+				}
+
 			}
 		}
 	}
