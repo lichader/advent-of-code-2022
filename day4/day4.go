@@ -28,10 +28,21 @@ func main() {
 		r1Low, r1High := splitRange(slice[0])
 		r2Low, r2High := splitRange(slice[1])
 
-		if (r2Low <= r1Low && r1High <= r2High) || (r1Low <= r2Low && r2High <= r1High) {
+		fmt.Println("No.s", r1Low, r1High, r2Low, r2High)
+
+		// if (r2Low <= r1Low && r1High <= r2High) || (r1Low <= r2Low && r2High <= r1High) {
+		// 	count++
+		// 	fmt.Println("Found range included: ", line)
+		// }
+
+		// 1-4,3-4
+		if r1Low < r2Low && r1High < r2Low {
+		} else if r2Low < r1Low && r2High < r1Low {
+		} else {
 			count++
 			fmt.Println("Found range included: ", line)
 		}
+
 	}
 
 	fmt.Println("Total fully contained pairs: ", count)
