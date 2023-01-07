@@ -41,14 +41,12 @@ func main() {
 			fmt.Println(sourceStack)
 			fmt.Println(destStack)
 
-			for moves > 0 {
-				sourceLen := len(sourceStack)
-				crateToMove := sourceStack[sourceLen-1]
-				sourceStack = sourceStack[:sourceLen-1]
-				destStack = append(destStack, crateToMove)
+			sourceLen := len(sourceStack)
+			cratesToMove := sourceStack[sourceLen-moves : sourceLen]
+			fmt.Println(cratesToMove)
 
-				moves--
-			}
+			sourceStack = sourceStack[:sourceLen-moves]
+			destStack = append(destStack, cratesToMove...)
 
 			stacks[sourceCrate-1] = sourceStack
 			stacks[destCrate-1] = destStack
