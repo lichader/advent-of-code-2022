@@ -34,6 +34,28 @@ func main() {
 			destCrate, _ := strconv.Atoi(res[0][3])
 
 			fmt.Println("Parsing line to moves: ", moves, sourceCrate, destCrate)
+
+			sourceStack := stacks[sourceCrate-1]
+			destStack := stacks[destCrate-1]
+
+			fmt.Println(sourceStack)
+			fmt.Println(destStack)
+
+			for moves > 0 {
+				sourceLen := len(sourceStack)
+				crateToMove := sourceStack[sourceLen-1]
+				sourceStack = sourceStack[:sourceLen-1]
+				destStack = append(destStack, crateToMove)
+
+				moves--
+			}
+
+			stacks[sourceCrate-1] = sourceStack
+			stacks[destCrate-1] = destStack
+
+			fmt.Println("After move: ")
+			printStacks(stacks[:])
+
 		} else if strings.HasPrefix(line, "[") {
 			fmt.Println("line: ", line, " and length: ", len(line))
 
@@ -43,19 +65,21 @@ func main() {
 
 				if crateRegex.MatchString(crate) {
 					crateName := crateRegex.FindStringSubmatch(crate)[0]
-
 					stacks[stackIndex] = append([]string{crateName}, stacks[stackIndex]...)
 				}
 
-				fmt.Println(stackIndex)
 				stackIndex++
 			}
 		} else if len(line) == 0 {
-			for i, stack := range stacks {
-				fmt.Println("index: ", i, ", stack: ", stack)
-			}
+			printStacks(stacks[:])
 		} else {
 			fmt.Println("Skip line: ", line)
 		}
+	}
+}
+
+func printStacks(stacks [][]string) {
+	for i, stack := range stacks {
+		fmt.Println("index: ", i, ", stack: ", stack)
 	}
 }
