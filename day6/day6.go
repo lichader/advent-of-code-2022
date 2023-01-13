@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-const size = 4
+const size = 14
 
 func main() {
 	sampleFile := os.Args[1]
